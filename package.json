@@ -1,0 +1,23 @@
+{
+  "name": "optionscontract",
+  "version": "1.0.0",
+  "description": "options token contract",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bn.js": "^5.1.2",
+    "web3": "^1.2.11",
+    "@openzeppelin/test-helpers": "^0.5.9"
+  },
+  "devDependencies": {
+    "eth-gas-reporter": "^0.2.17"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Smith Ambition",
+  "license": "ISC",
+  "bugs": {}
+}

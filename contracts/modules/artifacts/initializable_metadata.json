@@ -1,0 +1,39 @@
+{
+	"compiler": {
+		"version": "0.5.16+commit.9c3226ce"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"details": "Helper contract to support initializer functions. To use it, replace the constructor with a function that has the `initializer` modifier. WARNING: Unlike constructors, initializer functions must be manually invoked. This applies both to deploying an Initializable contract, as well as extending an Initializable contract via inheritance. WARNING: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or ensure that all initializers are idempotent, because this is not dealt with automatically as with constructors.",
+			"methods": {},
+			"title": "Initializable "
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"localhost/modules/initializable.sol": "initializable"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"localhost/modules/initializable.sol": {
+			"keccak256": "0x3c313cb7d6b570786c0d12caf0f1903022e60a56ba1184142ed647d84c88f0cb",
+			"urls": [
+				"bzz-raw://63941153459af5c2813421ca087102885ab8029baec37d2aea41665bc5d5d289",
+				"dweb:/ipfs/QmY3P47Rc2nmRSBGFx6aF9bkQPxFwPMrBbu91iM1YK8ZsY"
+			]
+		}
+	},
+	"version": 1
+}

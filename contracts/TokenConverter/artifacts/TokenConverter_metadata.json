@@ -1,0 +1,605 @@
+{
+	"compiler": {
+		"version": "0.5.16+commit.9c3226ce"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "worth",
+						"type": "uint256"
+					}
+				],
+				"name": "ClaimFnx",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "worth",
+						"type": "uint256"
+					}
+				],
+				"name": "InputCfnx",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "cfnxAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "claimFnxExpiredReward",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "dispatchTimes",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "fnxAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "getClaimAbleBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "getManager",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "reciever",
+						"type": "address"
+					}
+				],
+				"name": "getbackLeftFnx",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "initialize",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "inputCfnxForInstallmentPay",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "isOwner",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "lockPeriod",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "lockedAllRewards",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "total",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "lockedBalanceOf",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lockedBalances",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "lockedIndexs",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "beginIdx",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalIdx",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "renounceOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "halt",
+						"type": "bool"
+					}
+				],
+				"name": "setHalt",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "managerAddress",
+						"type": "address"
+					}
+				],
+				"name": "setManager",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_cfnxAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_fnxAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_timeSpan",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_dispatchTimes",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_txNum",
+						"type": "uint256"
+					}
+				],
+				"name": "setParameter",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "timeSpan",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "txNum",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": false,
+				"inputs": [],
+				"name": "update",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "ERC20 token. Its inside value is collatral pool net worth.  ",
+			"methods": {
+				"claimFnxExpiredReward()": {
+					"details": "user user claim expired reward"
+				},
+				"getClaimAbleBalance(address)": {
+					"details": "get user claimable balance",
+					"params": {
+						"_user": "the user address"
+					}
+				},
+				"getManager()": {
+					"details": "get manager address.       "
+				},
+				"getbackLeftFnx(address)": {
+					"details": "getting back the left mine token",
+					"params": {
+						"reciever": "the reciever for getting back mine token"
+					}
+				},
+				"inputCfnxForInstallmentPay(uint256)": {
+					"details": "user input cnfx to get fnx",
+					"params": {
+						"amount": "fnx amount"
+					}
+				},
+				"isOwner()": {
+					"details": "Returns true if the caller is the current owner."
+				},
+				"lockedBalanceOf(address)": {
+					"details": "Retrieve user's locked balance. ",
+					"params": {
+						"account": "user's account."
+					}
+				},
+				"owner()": {
+					"details": "Returns the address of the current owner."
+				},
+				"renounceOwnership()": {
+					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner.      * NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+				},
+				"setManager(address)": {
+					"details": "set manager by owner.       "
+				},
+				"setParameter(address,address,uint256,uint256,uint256)": {
+					"details": "constructor function. set FNX minePool contract address. "
+				},
+				"transferOwnership(address)": {
+					"details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+				}
+			},
+			"title": "FPTCoin is finnexus collateral Pool token, implement ERC20 interface."
+		},
+		"userdoc": {
+			"methods": {
+				"setHalt(bool)": {
+					"notice": "function Emergency situation that requires contribution period to stop or not."
+				}
+			}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"localhost/TokenConverter/TokenConverter.sol": "TokenConverter"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"localhost/ERC20/IERC20.sol": {
+			"keccak256": "0x3f11e352b753d34c5b12012a5101fad6d2a35f539f31aa7d88aed2001c02f6fc",
+			"urls": [
+				"bzz-raw://9b2f9b94bc971554502db91b2224b9620fd724a4b374a05373cefcf737cade6a",
+				"dweb:/ipfs/QmeuCBAi6GFzLbh3z8qby6acgjFJxKbywCP71oS9G3Hsna"
+			]
+		},
+		"localhost/TokenConverter/TokenConverter.sol": {
+			"keccak256": "0x8babf13c38707a7e6d910439a929bf41b04feaec81406056df7454c5c04c56c6",
+			"urls": [
+				"bzz-raw://57fe5f594802bcd7958aeed95346b3fdc40e50ef7dbaac43af00f5e0b6854999",
+				"dweb:/ipfs/QmPARuNRjFkDwTSDeP4b2YhYfJJmrFaFHSoRBTZ1gA5Xmb"
+			]
+		},
+		"localhost/TokenConverter/TokenConverterData.sol": {
+			"keccak256": "0xd85d8504dc9e8266f7b9255d03896ed6fa311d3b299415bc9cdd8bd87eb1bbc0",
+			"urls": [
+				"bzz-raw://3eed1d431d991b1b61e2fb1a7de8dfdf780fa3ffa0cb4738b5434e8650088b9c",
+				"dweb:/ipfs/QmSJ64fxeKVax8rwhk6SMQePa8v1w7y3qknJ8R7RNPXtJX"
+			]
+		},
+		"localhost/modules/Halt.sol": {
+			"keccak256": "0x4decad501065bc7cac2133a68b8c1103ee4888b90318bed58706c47afe9c0c05",
+			"urls": [
+				"bzz-raw://bdb78b06241ec0d18a75acbd7c90ecb0bc3f1f21ddf4467e563b8ed1ba672271",
+				"dweb:/ipfs/Qmc4hqMpXR32k5K1ygra9NDNgG3kFRexQ67DrDpsiMcuMF"
+			]
+		},
+		"localhost/modules/Managerable.sol": {
+			"keccak256": "0xd8820b7a31edb67707507056fe78b0d9549e4590b07d7b6579cf741e8035b985",
+			"urls": [
+				"bzz-raw://9f32c923cb961fdc12f7e01dda7ccbc2b9039fbd1af1488a34b7b6c3722f9ea8",
+				"dweb:/ipfs/QmPYMKviy8kPpQMvJNM7eFefLhEGCZYtbGbFZabe1w5te1"
+			]
+		},
+		"localhost/modules/Ownable.sol": {
+			"keccak256": "0xbee80fd7a5d8bfc985dfb69ab47d582835fbf1e3352598e9c75ee931d8201b5d",
+			"urls": [
+				"bzz-raw://e388e11e0172712bf10327ddee6df03aeebeda1218734aadb40b1d2a46567d8d",
+				"dweb:/ipfs/QmXn5T5gAAZmNKWvXNV9YkuDv7h5ppvdYwACUT5yD7ycxD"
+			]
+		},
+		"localhost/modules/SafeMath.sol": {
+			"keccak256": "0xeb295b448107f6adee6c0861eba7cd58983eeb1a2bf9cd24b3df9c75fe17db75",
+			"urls": [
+				"bzz-raw://781a662595af8ecda052135a27529293189c1cdf40bc5e2934a62b3bc2b327ea",
+				"dweb:/ipfs/QmNaGn5PyRCu3tfBu6mMwx3j2BHJiXWKiYGHSAu3au6P7S"
+			]
+		}
+	},
+	"version": 1
+}
