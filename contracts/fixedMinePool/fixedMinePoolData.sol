@@ -40,6 +40,10 @@ contract fixedMinePoolData is initializable,Operator,Halt,AddressWhiteList,Reent
     uint256 constant internal periodWeight = 1000;
     uint256 constant internal baseWeight = 5000;
 
+    uint256 public _fnxFeeRatio = 5;
+    uint256 public _htFeeAmount = 1e16;
+    address payable public _feeReciever;
+
     // FPT-A address
     address internal _FPTA;
     // FPT-B address

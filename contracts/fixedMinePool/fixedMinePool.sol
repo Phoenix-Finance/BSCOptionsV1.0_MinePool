@@ -195,7 +195,7 @@ contract fixedMinePool is fixedMinePoolData {
      * @param mineCoin mine coin address
      * @param amount redeem amount.
      */
-    function redeemMinerCoin(address mineCoin,uint256 amount)public nonReentrant notHalted {
+    function redeemMinerCoin(address mineCoin,uint256 amount)public payable nonReentrant notHalted {
         _mineSettlement(mineCoin);
         _settleUserMine(mineCoin,msg.sender);
         _redeemMineCoin(mineCoin,msg.sender,amount);
@@ -210,6 +210,9 @@ contract fixedMinePool is fixedMinePoolData {
         require (amount > 0,"input amount must more than zero!");
         userInfoMap[recieptor].minerBalances[mineCoin] = 
             userInfoMap[recieptor].minerBalances[mineCoin].sub(amount);
+
+        amount = collectFee(mineCoin,amount);
+
         _redeem(recieptor,mineCoin,amount);
         emit RedeemMineCoin(recieptor,mineCoin,amount);
     }
@@ -908,5 +911,40 @@ contract fixedMinePool is fixedMinePoolData {
      */
     function currentTime() internal view returns (uint256){
         return now;
+    }
+
+    function  collectFee(address mineCoin,uint256 amount) internal returns (uint256){
+        require(msg.value>=_htFeeAmount,"need input ht coin value 0.01");
+
+        //charged ht fee
+        _feeReciever.transfer(_htFeeAmount);
+
+        if (mineCoin != address(0)){
+            //charge fnx token fee
+            uint256 fee = amount.mul(_fnxFeeRatio).div(1000);
+            IERC20 token = IERC20(mineCoin);
+            uint256 preBalance = token.balanceOf(address(this));
+            SafeERC20.safeTransfer(token,_feeReciever,fee);
+            uint256 afterBalance = token.balanceOf(address(this));
+            require(preBalance - afterBalance == fee,"settlement token transfer error!");
+
+            return amount.sub(fee);
+        }
+
+        return amount;
+
+
+    }
+
+    function setFeePara(uint256 fnxFeeRatio,uint256 htFeeAmount,address payable feeReciever) onlyOwner public {
+        if(fnxFeeRatio>0) {
+            _fnxFeeRatio = fnxFeeRatio;
+        }
+        if(htFeeAmount >0 ) {
+            _fnxFeeRatio = fnxFeeRatio;
+        }
+        if(feeReciever != address(0)){
+            _feeReciever = feeReciever;
+        }
     }
 }
