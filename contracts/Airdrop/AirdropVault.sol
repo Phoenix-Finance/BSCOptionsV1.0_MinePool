@@ -42,24 +42,8 @@ contract AirDropVault is AirDropVaultData {
 
     function initialize() onlyOwner public {}
     
-    function update() onlyOwner public{ 
+    function update() onlyOwner public{
 
-        
-        userWhiteList[0x6fC1B3e4aEB54772D0CB96F5aCb4c60E70c29aB9] = 1000 ether;//https://etherscan.io/tx/0xec6021191e5e3f5d3af2494ee265e68bfa5f721dca9c82fbc96c2d666477d097
-        userWhiteList[0x0c18cc3A37E6969Df5CCe67D1579d645115b4861] = 1000 ether;//https://etherscan.io/tx/0x9c0ff821b4cca5ef08a61f33e77d9e595a814369ceb4ddf76e8b20773f659dfa
-        userWhiteList[0x4a96B3C9997E06eD17CE4948586F87D7d14D8d7e] = 1000 ether;//https://etherscan.io/tx/0x51758bf71230f0b5ae66a485f4fd4e0f1fce191c0e8d4d27a25d1c713e419ea8
-        
-
-        uint256 j;
-        //recover it to false
-        for(j=0;j<tokenWhiteList.length;j++) {
-            freeClaimedUserList[tokenWhiteList[j]][0xAbd252CfbaE138043e4fB5E667B489710964D572] = false;//https://etherscan.io/tx/0xe67383074eefe031fcdca9db63c7d582b410275bfabf1c4834aa1b01e764de28
-            freeClaimedUserList[tokenWhiteList[j]][0x2D8e5b082dFA5cD2A8EcFA5A0a93956cAD3dF91A] = false;//https://etherscan.io/tx/0x91aa4d999df2d6782bb884973c11f51fc7bdc423e75e2cfed51bde04f8885dcf
-        }
-        
-        uint256  MAX_UINT = (2**256 - 1);
-        IERC20(ftpbToken).approve(minePool,MAX_UINT);
-        
     }
     
     
@@ -106,6 +90,12 @@ contract AirDropVault is AirDropVaultData {
             
         if(_maxWhiteListFnxAirDrop>0)    
             maxWhiteListFnxAirDrop = _maxWhiteListFnxAirDrop;
+
+        //aprove optioncol fnx to unlimit
+        uint256  MAX_UINT = (2**256 - 1);
+        IERC20(fnxToken).approve(optionColPool,MAX_UINT);
+
+        //IERC20(ftpbToken).approve(minePool,MAX_UINT);
     }
     
     /**
@@ -213,21 +203,24 @@ contract AirDropVault is AirDropVaultData {
                     amount = maxWhiteListFnxAirDrop.sub(totalWhiteListClaimed);
                 }
                 totalWhiteListClaimed = totalWhiteListClaimed.add(amount);
-                
-                // IERC20(fnxToken).approve(optionColPool,amount);
-                // uint256 prefptb = IERC20(ftpbToken).balanceOf(address(this));
-                // IOptionMgrPoxy(optionColPool).addCollateral(fnxToken,amount);
-                // uint256 afterftpb = IERC20(ftpbToken).balanceOf(address(this));
-                // uint256 ftpbnum = afterftpb.sub(prefptb);
-                // IERC20(ftpbToken).approve(minePool,ftpbnum);
-                // IMinePool(minePool).lockAirDrop(msg.sender,ftpbnum);
-                // emit WhiteListClaim(msg.sender,amount,ftpbnum);
-                
-                //1000 fnx = 94 fpt
-                uint256 ftpbnum = 100 ether;
-               // IERC20(ftpbToken).approve(minePool,ftpbnum);
+
+
+                uint256 prefptb = IERC20(ftpbToken).balanceOf(address(this));
+                IOptionMgrPoxy(optionColPool).addCollateral(fnxToken,amount);
+                uint256 afterftpb = IERC20(ftpbToken).balanceOf(address(this));
+                uint256 ftpbnum = afterftpb.sub(prefptb);
+                IERC20(ftpbToken).approve(minePool,ftpbnum);
                 IMinePool(minePool).lockAirDrop(msg.sender,ftpbnum);
-                emit UserFreeClaim(msg.sender,amount,ftpbnum);
+
+                emit WhiteListClaim(msg.sender,amount,ftpbnum);
+
+
+                //1000 fnx = 94 fpt
+//                uint256 ftpbnum = 2 ether;
+//
+//                IERC20(ftpbToken).approve(minePool,ftpbnum);
+//                IMinePool(minePool).lockAirDrop(msg.sender,ftpbnum);
+//                emit UserFreeClaim(msg.sender,amount,ftpbnum);
             }
          }
     }
@@ -367,7 +360,10 @@ contract AirDropVault is AirDropVaultData {
      * @param _account  the user 
      */    
     function balanceOfAirDrop(address _account) public view returns(uint256){
-        uint256 whitelsBal = balanceOfWhitListUser(_account);
+
+        return balanceOfWhitListUser(_account);
+
+       // uint256 whitelsBal = balanceOfWhitListUser(_account);
 
         //removed free claim function
         // uint256 i = 0;
@@ -376,7 +372,7 @@ contract AirDropVault is AirDropVaultData {
         //    freeClaimBal = freeClaimBal.add(balanceOfFreeClaimAirDrop(tokenWhiteList[i],_account));
         // }
         
-        return whitelsBal.add(freeClaimBal);
+        //return whitelsBal.add(freeClaimBal);
     }
     
     /**
@@ -384,7 +380,8 @@ contract AirDropVault is AirDropVaultData {
      */
     function claimAirdrop() public airdropinited{
         require(now >= claimBeginTime,"claim not begin");
-        require(now < claimEndTime,"claim finished");        
+        require(now < claimEndTime,"claim finished");
+
         whitelistClaim();
 
         //remove free claim function        
