@@ -22,12 +22,12 @@ contract fixedMinePoolData is initializable,Operator,Halt,AddressWhiteList,Reent
     //The timestamp when the minepool begin.
     uint256 internal _startTime;
     //Single locked period duration.
-    uint256 internal constant _period = 90 days;
+    uint256 internal constant _period = 30 days;//90 days;
     //The lock duration when user stake flexible FPT-B in this pool.
-    uint256 internal _flexibleExpired;
+    uint256 internal _flexibleExpired = 1 weeks;
 
     //The max locked peroid when user stake locked FPT-B coin.
-    uint256 constant internal _maxPeriod = 12;
+    uint256 constant internal _maxPeriod = 6;//12;//6 months
     //The max loop when user does nothing to this pool for long long time .
     uint256 constant internal _maxLoop = 120;
     //the mine distribution's ratio to FPT-A coin 
@@ -35,10 +35,10 @@ contract fixedMinePoolData is initializable,Operator,Halt,AddressWhiteList,Reent
     //the mine distribution's ratio to FPT-B coin 
     uint256 constant internal _FPTBRatio = 1000;
     //the mine distribution's ratio to FPT-A and FPT-B coin repetition
-    uint256 constant internal _RepeatRatio = 20000;
+    uint256 constant internal _RepeatRatio = 3000;//20000;
     //the accumulated weight each period has.
-    uint256 constant internal periodWeight = 1000;
-    uint256 constant internal baseWeight = 5000;
+    uint256 constant internal periodWeight = 500;//1000;
+    uint256 constant internal baseWeight = 1000;//5000;
 
     uint256 public _fnxFeeRatio = 5;
     uint256 public _htFeeAmount = 1e16;

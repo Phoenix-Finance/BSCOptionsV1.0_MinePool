@@ -368,11 +368,13 @@ contract AirDropVault is AirDropVaultData {
      */    
     function balanceOfAirDrop(address _account) public view returns(uint256){
         uint256 whitelsBal = balanceOfWhitListUser(_account);
-        uint256 i = 0;
-        uint256 freeClaimBal = 0;
-        for(i=0;i<tokenWhiteList.length;i++) {
-           freeClaimBal = freeClaimBal.add(balanceOfFreeClaimAirDrop(tokenWhiteList[i],_account));
-        }
+
+        //removed free claim function
+        // uint256 i = 0;
+        // uint256 freeClaimBal = 0;
+        // for(i=0;i<tokenWhiteList.length;i++) {
+        //    freeClaimBal = freeClaimBal.add(balanceOfFreeClaimAirDrop(tokenWhiteList[i],_account));
+        // }
         
         return whitelsBal.add(freeClaimBal);
     }
@@ -384,15 +386,17 @@ contract AirDropVault is AirDropVaultData {
         require(now >= claimBeginTime,"claim not begin");
         require(now < claimEndTime,"claim finished");        
         whitelistClaim();
-        
-        uint256 i;
-        address targetToken;
-         for(i=0;i<tokenWhiteList.length;i++) {
-            targetToken = tokenWhiteList[i]; 
-            if(tkBalanceRequire[targetToken]>0) {
-                freeClaim(targetToken);
-            }
-         }
+
+        //remove free claim function        
+        // uint256 i;
+        // address targetToken;
+        //  for(i=0;i<tokenWhiteList.length;i++) {
+        //     targetToken = tokenWhiteList[i]; 
+        //     if(tkBalanceRequire[targetToken]>0) {
+        //         freeClaim(targetToken);
+        //     }
+        //  }
+       
     }
       
 }
