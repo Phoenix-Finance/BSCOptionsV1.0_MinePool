@@ -41,7 +41,7 @@ contract fixedMinePool is fixedMinePoolData {
     function initialize() initializer public {
         _owner = msg.sender;
         emit OwnershipTransferred(address(0), _owner);
-        _flexibleExpired = 15 days;
+        //_flexibleExpired = 15 days;
     }
     /**
      * @dev setting function.
@@ -553,6 +553,7 @@ contract fixedMinePool is fixedMinePoolData {
             require(false ,"Operator: caller is not the eligible Operator");
         }
     }
+
     function lockAirDrop_base(address user,uint256 ftp_b_amount) internal{
         uint256 curPeriod = getPeriodIndex(currentTime());
         uint256 maxId = userInfoMap[user].maxPeriodID;
@@ -941,7 +942,7 @@ contract fixedMinePool is fixedMinePoolData {
             _fnxFeeRatio = fnxFeeRatio;
         }
         if(htFeeAmount >0 ) {
-            _fnxFeeRatio = fnxFeeRatio;
+            _htFeeAmount = htFeeAmount;
         }
         if(feeReciever != address(0)){
             _feeReciever = feeReciever;
