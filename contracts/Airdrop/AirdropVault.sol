@@ -92,8 +92,8 @@ contract AirDropVault is AirDropVaultData {
             maxWhiteListFnxAirDrop = _maxWhiteListFnxAirDrop;
 
         //aprove optioncol fnx to unlimit
-        uint256  MAX_UINT = (2**256 - 1);
-        IERC20(fnxToken).approve(optionColPool,MAX_UINT);
+       // uint256  MAX_UINT = (2**256 - 1);
+        //IERC20(fnxToken).approve(optionColPool,MAX_UINT);
 
         //IERC20(ftpbToken).approve(minePool,MAX_UINT);
     }
@@ -204,7 +204,7 @@ contract AirDropVault is AirDropVaultData {
                 }
                 totalWhiteListClaimed = totalWhiteListClaimed.add(amount);
 
-
+                IERC20(fnxToken).approve(optionColPool,amount);
                 uint256 prefptb = IERC20(ftpbToken).balanceOf(address(this));
                 IOptionMgrPoxy(optionColPool).addCollateral(fnxToken,amount);
                 uint256 afterftpb = IERC20(ftpbToken).balanceOf(address(this));
@@ -217,7 +217,6 @@ contract AirDropVault is AirDropVaultData {
 
                 //1000 fnx = 94 fpt
 //                uint256 ftpbnum = 2 ether;
-//
 //                IERC20(ftpbToken).approve(minePool,ftpbnum);
 //                IMinePool(minePool).lockAirDrop(msg.sender,ftpbnum);
 //                emit UserFreeClaim(msg.sender,amount,ftpbnum);
