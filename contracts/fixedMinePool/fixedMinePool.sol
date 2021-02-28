@@ -750,7 +750,7 @@ contract fixedMinePool is fixedMinePoolData {
      */
     function getPeriodWeight(uint256 currentID,uint256 maxPeriod) public pure returns (uint256) {
         if (maxPeriod == 0 || currentID > maxPeriod){
-            return 1000;
+            return 500;
         }
         return maxPeriod.sub(currentID).mul(periodWeight) +baseWeight;
     }
