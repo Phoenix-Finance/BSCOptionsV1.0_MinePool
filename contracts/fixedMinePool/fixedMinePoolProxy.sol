@@ -200,8 +200,8 @@ contract fixedMinePoolProxy is newBaseProxy {
      *  mineCoin mine coin address
      *  amount redeem amount.
      */
-    function redeemMinerCoin(address /*mineCoin*/,uint256 /*amount*/)public{
-        delegateAndReturn();
+    function redeemMinerCoin(address /*mineCoin*/,uint256 /*amount*/) payable public{
+       delegateAndReturn();
     }
     /**
      * @dev getting whole pool's mine production weight ratio.
