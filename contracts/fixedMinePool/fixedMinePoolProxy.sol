@@ -310,6 +310,10 @@ contract fixedMinePoolProxy is newBaseProxy {
     function distributePremium(address /*premiumCoin*/,uint256 /*periodID*/,uint256 /*amount*/)public {
         delegateAndReturn();
     }
+
+    function setFeePara(uint256 /*fnxFeeRatio*/,uint256 /*htFeeAmount*/,address payable /*feeReciever*/) public {
+        delegateAndReturn();
+    }
         /**
      * @dev Emitted when `account` stake `amount` FPT-A coin.
      */

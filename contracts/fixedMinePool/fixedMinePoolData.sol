@@ -38,7 +38,7 @@ contract fixedMinePoolData is initializable,Operator,Halt,AddressWhiteList,Reent
     uint256 constant internal _RepeatRatio = 3000;//20000;
     //the accumulated weight each period has.
     uint256 constant internal periodWeight = 500;//1000;
-    uint256 constant internal baseWeight = 1000;//5000;
+    uint256 constant internal baseWeight = 1500;//5000;
 
     uint256 public _fnxFeeRatio = 50;//5%
     uint256 public _htFeeAmount = 1e16;
