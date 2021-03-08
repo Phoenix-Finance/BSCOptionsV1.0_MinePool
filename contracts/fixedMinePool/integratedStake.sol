@@ -54,6 +54,7 @@ contract integratedStake is Ownable{
             }
             uint256 amount = getPayableAmount(fpta_tokens[i],fpta_amounts[i]);
             IOptionMgrPoxy(_FPTAColPool).addCollateral(fpta_tokens[i],amount);
+            IERC20(_FPTA).safeTransfer(msg.sender,0);
         }
         for(i = 0;i<fptb_tokens.length;i++) {
             if (!approveMapB[fptb_tokens[i]]){
@@ -62,6 +63,7 @@ contract integratedStake is Ownable{
             }
             uint256 amount = getPayableAmount(fptb_tokens[i],fptb_amounts[i]);
             IOptionMgrPoxy(_FPTBColPool).addCollateral(fptb_tokens[i],amount);
+            IERC20(_FPTB).safeTransfer(msg.sender,0);
         }
         IMinePool(_minePool).lockAirDrop(msg.sender,lockedPeriod);
     }

@@ -41,7 +41,7 @@ contract fixedMinePool is fixedMinePoolData {
     function initialize() initializer public {
         _owner = msg.sender;
         emit OwnershipTransferred(address(0), _owner);
-        //_flexibleExpired = 15 days;
+        _flexibleExpired = 7 days;
     }
     /**
      * @dev setting function.
@@ -272,23 +272,22 @@ contract fixedMinePool is fixedMinePoolData {
         }
         uint256 i = _maxPeriod-1;
         uint256 nowIndex = getPeriodIndex(currentTime());
-        uint256 allLockedPeriod;
-        uint256 periodDistri = weightDistributionMap[nowIndex+i]/4;
-        allLockedPeriod = periodDistri.mul(getPeriodFinishTime(nowIndex+i).sub(currentTime()));
-        i--;
+        uint256[] memory periodLocked = new uint256[](_maxPeriod);
         for (;;i--){
-            //p[i] = (p[i+1]*3+w[i]+w[i+2]-w[i+1]*2)4
-            periodDistri = periodDistri.mul(3).add(weightDistributionMap[nowIndex+i]).add(weightDistributionMap[nowIndex+i+2]);
-            uint256 subWeight = weightDistributionMap[nowIndex+i+1].mul(2);
-            if (periodDistri>subWeight){
-                periodDistri = (periodDistri-subWeight)/4;
-            }else{
-                periodDistri = 0;
+            periodLocked[i] = weightDistributionMap[nowIndex+i];
+            for(uint256 j=i+1;j<_maxPeriod;j++){
+                if (periodLocked[j]>0){
+                    periodLocked[i] = periodLocked[i].sub(periodLocked[j].mul(getPeriodWeight(i,j)-1000)/1000);
+                }
             }
-            allLockedPeriod = allLockedPeriod.add(periodDistri.mul(getPeriodFinishTime(nowIndex+i).sub(currentTime())));
+            periodLocked[i] = periodLocked[i]*1000/(getPeriodWeight(nowIndex,nowIndex)-1000);
             if (i == 0){
                 break;
             }
+        }
+        uint256 allLockedPeriod = 0;
+        for(i=0;i<_maxPeriod;i++){
+            allLockedPeriod = allLockedPeriod.add(periodLocked[i].mul(getPeriodFinishTime(nowIndex+i).sub(currentTime())));
         }
         return allLockedPeriod.div(totalDistribution);
     }
@@ -573,7 +572,7 @@ contract fixedMinePool is fixedMinePoolData {
 
         require(userMaxPeriod>=userInfoMap[user].maxPeriodID, "lockedPeriod cannot be smaller than current locked period");
         if(userInfoMap[user].maxPeriodID<curPeriod && lockedPeriod == 1){
-            require(getPeriodFinishTime(getCurrentPeriodID()+lockedPeriod)>currentTime() + _flexibleExpired, 'locked time must greater than 15 days');
+            require(getPeriodFinishTime(getCurrentPeriodID()+lockedPeriod)>currentTime() + _flexibleExpired, 'locked time must greater than flexible expiration');
         }
         uint256 ftp_a_amount = IERC20(_FPTA).balanceOf(msg.sender);
         ftp_a_amount = getPayableAmount(_FPTA,ftp_a_amount);
@@ -752,7 +751,14 @@ contract fixedMinePool is fixedMinePoolData {
         if (maxPeriod == 0 || currentID > maxPeriod){
             return 1000;
         }
-        return maxPeriod.sub(currentID).mul(periodWeight) +baseWeight;
+        uint256 curLocked = maxPeriod-currentID;
+        if(curLocked == 0){
+            return 1600;
+        }else if(curLocked == 1){
+            return 3200;
+        }else{
+            return 5000;
+        }
     }
 
     /**
