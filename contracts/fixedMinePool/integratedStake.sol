@@ -44,28 +44,32 @@ contract integratedStake is Ownable{
         }
     }
     function stake(address[] memory fpta_tokens,uint256[] memory fpta_amounts,
-            address[] memory fptb_tokens,uint256[] memory fptb_amounts,uint256 lockedPeriod) public{
+            address[] memory fptb_tokens,uint256[] memory fptb_amounts,uint256 lockedPeriod) public payable{
         require(fpta_tokens.length==fpta_amounts.length && fptb_tokens.length==fptb_amounts.length,"the input array length is not equal");
         uint256 i = 0;
-        for(i = 0;i<fpta_tokens.length;i++) {
-            if (!approveMapA[fpta_tokens[i]]){
-                IERC20(fpta_tokens[i]).safeApprove(_FPTAColPool,MAX_UINT);
-                approveMapA[fpta_tokens[i]] = true;
-            }
-            uint256 amount = getPayableAmount(fpta_tokens[i],fpta_amounts[i]);
-            IOptionMgrPoxy(_FPTAColPool).addCollateral(fpta_tokens[i],amount);
-            IERC20(_FPTA).safeTransfer(msg.sender,0);
-        }
-        for(i = 0;i<fptb_tokens.length;i++) {
-            if (!approveMapB[fptb_tokens[i]]){
-                IERC20(fptb_tokens[i]).safeApprove(_FPTBColPool,MAX_UINT);
-                approveMapB[fptb_tokens[i]] = true;
-            }
-            uint256 amount = getPayableAmount(fptb_tokens[i],fptb_amounts[i]);
-            IOptionMgrPoxy(_FPTBColPool).addCollateral(fptb_tokens[i],amount);
-            IERC20(_FPTB).safeTransfer(msg.sender,0);
-        }
+        addCollateralSub(fpta_tokens,fpta_amounts,_FPTAColPool,_FPTA);
+        addCollateralSub(fptb_tokens,fptb_amounts,_FPTBColPool,_FPTB);
         IMinePool(_minePool).lockAirDrop(msg.sender,lockedPeriod);
+    }
+    function addCollateralSub(address[] memory fpt_tokens,uint256[] memory fpt_amounts,
+        address FPTColPool,address FPT)internal {
+        uint256 i = 0;
+        uint256 coinAmount = 0;
+        for(i = 0;i<fpt_tokens.length;i++) {
+            uint256 amount = getPayableAmount(fpt_tokens[i],fpt_amounts[i]);
+            if (fpt_tokens[i]== address(0)){
+                coinAmount = amount;
+            }
+            else{
+                coinAmount = 0;
+                if ((!approveMapA[fpt_tokens[i]])){
+                    IERC20(fpt_tokens[i]).safeApprove(FPTColPool,MAX_UINT);
+                    approveMapA[fpt_tokens[i]] = true;
+                }
+            }
+            IOptionMgrPoxy(FPTColPool).addCollateral.value(coinAmount)(fpt_tokens[i],amount);
+            IERC20(FPT).safeTransfer(msg.sender,0);
+        }
     }
     /**
      * @dev Auxiliary function. getting user's payment

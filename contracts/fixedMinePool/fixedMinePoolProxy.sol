@@ -106,6 +106,12 @@ contract fixedMinePoolProxy is newBaseProxy {
     function getStartTime()public view returns (uint256) {
         delegateToViewAndReturn(); 
     }
+    function getFlexibleExpired()public view returns(uint256){
+        delegateToViewAndReturn(); 
+    }
+    function setFlexibleExpired(uint256 /*expired*/)public{
+        delegateAndReturn();
+    }
     /**
      * @dev getting current mine period ID.
      */
