@@ -217,7 +217,10 @@ contract fixedMinePool is fixedMinePoolData {
         userInfoMap[recieptor].minerBalances[mineCoin] = 
             userInfoMap[recieptor].minerBalances[mineCoin].sub(amount);
 
-        amount = collectFee(mineCoin,amount);
+        //collect fees for mine
+        if(_fnxFeeRatio!=0) {
+            amount = collectFee(mineCoin,amount);
+        }
 
         _redeem(recieptor,mineCoin,amount);
         emit RedeemMineCoin(recieptor,mineCoin,amount);
@@ -939,8 +942,6 @@ contract fixedMinePool is fixedMinePoolData {
         }
 
         return amount;
-
-
     }
 
     function setFeePara(uint256 fnxFeeRatio,uint256 htFeeAmount,address payable feeReciever) onlyOwner public {
