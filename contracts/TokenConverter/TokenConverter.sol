@@ -71,26 +71,32 @@ contract TokenConverter is TokenConverterData {
         require(amount>0,"amount should be bigger than 0");
         
         IERC20(cfnxAddress).transferFrom(msg.sender,address(this),amount);
-        uint256 idx = lockedIndexs[msg.sender].totalIdx;
+        uint256 idx = now.div(24*3600);//lockedIndexs[msg.sender].totalIdx;
+
+        userTxIdxs[msg.sender].push(idx);
+
         uint256 divAmount = amount.div(dispatchTimes);
 
-        lockedAllRewards[msg.sender][idx] = lockedReward(now,amount);
+        if( lockedAllRewards[msg.sender][idx].total==0) {
+            lockedAllRewards[msg.sender][idx] = lockedReward(now,amount);
+        } else {
+            lockedAllRewards[msg.sender][idx].startTime = now;
+            lockedAllRewards[msg.sender][idx].total = lockedAllRewards[msg.sender][idx].total.add(amount);
+        }
         
         //index 0 to save the left token num
-        lockedAllRewards[msg.sender][idx].alloc[0] = amount.sub(divAmount);
+        lockedAllRewards[msg.sender][idx].alloc[0] = lockedAllRewards[msg.sender][idx].alloc[0].add(amount.sub(divAmount));
         uint256 i=2;
         //idx = 1, the reward give user immediately
         for(;i<dispatchTimes;i++){
-            lockedAllRewards[msg.sender][idx].alloc[i] = divAmount;
+            lockedAllRewards[msg.sender][idx].alloc[i] = lockedAllRewards[msg.sender][idx].alloc[i].add(divAmount);
         }
-        lockedAllRewards[msg.sender][idx].alloc[i] = amount.sub(divAmount.mul(dispatchTimes-1));
+        lockedAllRewards[msg.sender][idx].alloc[i] = lockedAllRewards[msg.sender][idx].alloc[i].add(amount.sub(divAmount.mul(dispatchTimes-1)));
         
         
         lockedBalances[msg.sender] = lockedBalances[msg.sender].add(amount.sub(divAmount));
         
-        //should can not be overflow
-        lockedIndexs[msg.sender].totalIdx =  lockedIndexs[msg.sender].totalIdx + 1;
-        
+
         IERC20(fnxAddress).transfer(msg.sender,divAmount);
 
         emit InputCfnx(msg.sender,amount,divAmount);
@@ -103,21 +109,21 @@ contract TokenConverter is TokenConverterData {
         require(fnxAddress!=address(0),"fnx token should be set");
         
         uint256 txcnt = 0;
-        uint256 i = lockedIndexs[msg.sender].beginIdx;
-        uint256 endIdx = lockedIndexs[msg.sender].totalIdx;
+        uint256 idx = lockedIndexs[msg.sender].beginIdx;
+        uint256 endIdx = userTxIdxs[msg.sender].length;
         uint256 totalRet = 0;
         
-        for(;i<endIdx && txcnt<txNum;i++) {
-           //only count the rewards over at least one timeSpan
+        for(;idx<endIdx && txcnt<txNum;idx++) {
+           //i used for the user input cfnx tx idx,too much i used before,no changed now
+            uint256 i = userTxIdxs[msg.sender][idx];
            if (now >= lockedAllRewards[msg.sender][i].startTime + timeSpan) {
                
                if (lockedAllRewards[msg.sender][i].alloc[0] > 0) {
                     if (now >= lockedAllRewards[msg.sender][i].startTime + lockPeriod) {
                         totalRet = totalRet.add(lockedAllRewards[msg.sender][i].alloc[0]);
                         lockedAllRewards[msg.sender][i].alloc[0] = 0;
-                        
                         //updated last expired idx
-                        lockedIndexs[msg.sender].beginIdx = i;
+                        lockedIndexs[msg.sender].beginIdx = idx;
                     } else {
                       
                         uint256 timeIdx = (now - lockedAllRewards[msg.sender][i].startTime).div(timeSpan) + 1;

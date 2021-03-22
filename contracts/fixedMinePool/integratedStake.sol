@@ -46,7 +46,7 @@ contract integratedStake is Ownable{
     function stake(address[] memory fpta_tokens,uint256[] memory fpta_amounts,
             address[] memory fptb_tokens,uint256[] memory fptb_amounts,uint256 lockedPeriod) public payable{
         require(fpta_tokens.length==fpta_amounts.length && fptb_tokens.length==fptb_amounts.length,"the input array length is not equal");
-        uint256 i = 0;
+       // uint256 i = 0;
         addCollateralSub(fpta_tokens,fpta_amounts,_FPTAColPool,_FPTA);
         addCollateralSub(fptb_tokens,fptb_amounts,_FPTBColPool,_FPTB);
         IMinePool(_minePool).lockAirDrop(msg.sender,lockedPeriod);

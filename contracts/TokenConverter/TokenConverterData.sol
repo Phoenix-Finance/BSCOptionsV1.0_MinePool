@@ -29,8 +29,8 @@ contract TokenConverterData is Managerable,Halt {
     mapping (address =>  mapping (uint256 => lockedReward)) public lockedAllRewards;//converting tx record for each user
     
     mapping (address => lockedIdx) public lockedIndexs;//the converting tx index info
-    
-    
+
+    mapping (address => uint256[]) public userTxIdxs;//address idx number
     /**
      * @dev Emitted when `owner` locked  `amount` FPT, which net worth is  `worth` in USD. 
      */
