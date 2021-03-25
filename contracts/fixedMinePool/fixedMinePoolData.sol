@@ -37,8 +37,11 @@ contract fixedMinePoolData is initializable,Operator,Halt,AddressWhiteList,Reent
     //the mine distribution's ratio to FPT-A and FPT-B coin repetition
     uint256 constant internal _RepeatRatio = 3000;//20000;
     //the accumulated weight each period has.
-    uint256 constant internal periodWeight = 500;//1000;
-    uint256 constant internal baseWeight = 1500;//5000;
+   // uint256 constant internal periodWeight = 500;//1000;
+   // uint256 constant internal baseWeight = 1500;//5000;
+
+    uint256[6] internal periodWeights = [uint256(1600),uint256(3200),uint256(5000),uint256(5300),uint256(5600),uint256(6000)];
+
 
     uint256 public _fnxFeeRatio = 50;//5%
     uint256 public _htFeeAmount = 1e16;

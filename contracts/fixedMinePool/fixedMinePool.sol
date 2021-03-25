@@ -757,11 +757,12 @@ contract fixedMinePool is fixedMinePoolData {
      * @param currentID current period ID.
      * @param maxPeriod user's maximium period ID.
      */
-    function getPeriodWeight(uint256 currentID,uint256 maxPeriod) public pure returns (uint256) {
+    function getPeriodWeight(uint256 currentID,uint256 maxPeriod) public view returns (uint256) {
         if (maxPeriod == 0 || currentID > maxPeriod){
             return 1000;
         }
-        return maxPeriod.sub(currentID).mul(periodWeight) +baseWeight;
+
+        return periodWeights[maxPeriod.sub(currentID)];
     }
 
     /**
