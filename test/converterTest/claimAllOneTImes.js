@@ -13,6 +13,7 @@ const ONE_DAY = ONE_HOUR * 24;
 const ONE_MONTH = 30 * ONE_DAY;
 
 contract('TokenConverter', function (accounts) {
+    let cfnxAmount0 = new BN("30000000000000000000");
     let cfnxAmount1 = new BN("60000000000000000000");
     let cfnxAmount2 = new BN("120000000000000000000");
     let cfnxAmount3 = new BN("125000000000000000000");
@@ -68,7 +69,10 @@ contract('TokenConverter', function (accounts) {
         console.log(await CFNXInst.allowance(accounts[1],CvntProxyInst.address));
 
         let beforeFnxBalanceProxy = await CFNXInst.balanceOf(CvntProxyInst.address);
-        let tx = await CvntProxyInst.inputCfnxForInstallmentPay(cfnxAmount1,{from:accounts[1]});
+        let tx = await CvntProxyInst.inputCfnxForInstallmentPay(cfnxAmount0,{from:accounts[1]});
+        assert.equal(tx.receipt.status,true);
+
+        tx = await CvntProxyInst.inputCfnxForInstallmentPay(cfnxAmount0,{from:accounts[1]});
         assert.equal(tx.receipt.status,true);
 
         let afterFnxUser =  await FNXInst.balanceOf(accounts[1]);

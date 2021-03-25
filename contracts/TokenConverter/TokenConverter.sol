@@ -92,10 +92,8 @@ contract TokenConverter is TokenConverterData {
             lockedAllRewards[msg.sender][idx].alloc[i] = lockedAllRewards[msg.sender][idx].alloc[i].add(divAmount);
         }
         lockedAllRewards[msg.sender][idx].alloc[i] = lockedAllRewards[msg.sender][idx].alloc[i].add(amount.sub(divAmount.mul(dispatchTimes-1)));
-        
-        
+
         lockedBalances[msg.sender] = lockedBalances[msg.sender].add(amount.sub(divAmount));
-        
 
         IERC20(fnxAddress).transfer(msg.sender,divAmount);
 
