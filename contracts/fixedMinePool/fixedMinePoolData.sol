@@ -40,7 +40,7 @@ contract fixedMinePoolData is initializable,Operator,Halt,AddressWhiteList,Reent
    // uint256 constant internal periodWeight = 500;//1000;
    // uint256 constant internal baseWeight = 1500;//5000;
 
-    uint256[6] internal periodWeights = [uint256(1600),uint256(3200),uint256(5000),uint256(5300),uint256(5600),uint256(6000)];
+    uint256[6] internal periodWeights;
 
 
     uint256 public _fnxFeeRatio = 50;//5%
