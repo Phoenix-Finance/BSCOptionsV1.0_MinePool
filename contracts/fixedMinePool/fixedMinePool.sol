@@ -34,6 +34,7 @@ contract fixedMinePool is fixedMinePoolData {
 
     }
     function update()public onlyOwner{
+        initialize();
     }
     /**
      * @dev initial function when the proxy contract deployed.
