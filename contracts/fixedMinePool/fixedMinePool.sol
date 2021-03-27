@@ -34,7 +34,8 @@ contract fixedMinePool is fixedMinePoolData {
 
     }
     function update()public onlyOwner{
-        initialize();
+        _flexibleExpired = 7 days;
+        periodWeights = [uint256(1600),uint256(3200),uint256(5000),uint256(5300),uint256(5600),uint256(6000)];
     }
     /**
      * @dev initial function when the proxy contract deployed.
@@ -43,7 +44,6 @@ contract fixedMinePool is fixedMinePoolData {
         _owner = msg.sender;
         emit OwnershipTransferred(address(0), _owner);
         _flexibleExpired = 7 days;
-        periodWeights = [uint256(1600),uint256(3200),uint256(5000),uint256(5300),uint256(5600),uint256(6000)];
     }
 
     function getFlexibleExpired()public view returns(uint256){
