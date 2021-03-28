@@ -13,8 +13,8 @@ contract CFNX is Ownable, ERC20{
 
     uint8 private _decimals = 18;
 
-    /// FinNexus total tokens supply
-    uint public MAX_TOTAL_TOKEN_AMOUNT = 500000000 ether;
+    //keeo same number with FinNexus tokens totalsupply
+    uint public MAX_TOTAL_TOKEN_AMOUNT = 176495407 ether;
 
     modifier maxTokenAmountNotReached (uint amount){
     	  assert(totalSupply().add(amount) <= MAX_TOTAL_TOKEN_AMOUNT);
