@@ -105,6 +105,9 @@ contract('TokenConverter', function (accounts) {
         await time.increase(time.duration.days(30*5+1));
         console.log("step 3 get out");
 
+        let claimableBalance = await CvntProxyInst.getClaimAbleBalance(accounts[1])
+        console.log("claimableBal="+web3.utils.fromWei(claimableBalance))
+
         let beforeFnxUser =  await FNXInst.balanceOf(accounts[1]);
         let tx = await CvntProxyInst.claimFnxExpiredReward({from:accounts[1]});
         assert.equal(tx.receipt.status,true);
@@ -158,6 +161,9 @@ contract('TokenConverter', function (accounts) {
     it('4 Get all FNX of the second batch input', async function () {
         await time.increase(time.duration.days(30*5+1));
         console.log("step 4 get out");
+
+        let claimableBalance = await CvntProxyInst.getClaimAbleBalance(accounts[1])
+        console.log("claimableBal="+web3.utils.fromWei(claimableBalance))
 
         let beforeFnxUser =  await FNXInst.balanceOf(accounts[1]);
         let tx = await CvntProxyInst.claimFnxExpiredReward({from:accounts[1]});

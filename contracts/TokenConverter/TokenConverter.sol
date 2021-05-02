@@ -110,12 +110,18 @@ contract TokenConverter is TokenConverterData {
         uint256 idx = lockedIndexs[msg.sender].beginIdx;
         uint256 endIdx = userTxIdxs[msg.sender].length;
         uint256 totalRet = 0;
-        
+
+        uint256 pretxid = 0;
         for(;idx<endIdx && txcnt<txNum;idx++) {
            //i used for the user input cfnx tx idx,too much i used before,no changed now
-            uint256 i = userTxIdxs[msg.sender][idx];
+           uint256 i = userTxIdxs[msg.sender][idx];
+           if(i!=pretxid){
+                pretxid = i;
+            } else {
+                continue;
+           }
+
            if (now >= lockedAllRewards[msg.sender][i].startTime + timeSpan) {
-               
                if (lockedAllRewards[msg.sender][i].alloc[0] > 0) {
                     if (now >= lockedAllRewards[msg.sender][i].startTime + lockPeriod) {
                         totalRet = totalRet.add(lockedAllRewards[msg.sender][i].alloc[0]);
@@ -167,11 +173,19 @@ contract TokenConverter is TokenConverterData {
         require(fnxAddress!=address(0),"fnx token should be set");
         
         uint256 txcnt = 0;
-        uint256 i = lockedIndexs[_user].beginIdx;
-        uint256 endIdx = lockedIndexs[_user].totalIdx;
+        uint256 idx = lockedIndexs[_user].beginIdx;
+       //uint256 endIdx = lockedIndexs[_user].totalIdx;
+        uint256 endIdx = userTxIdxs[_user].length;
         uint256 totalRet = 0;
-        
-        for(;i<endIdx && txcnt<txNum;i++) {
+        uint256 pretxid = 0;
+
+        for(;idx<endIdx && txcnt<txNum;idx++) {
+            uint256 i = userTxIdxs[_user][idx];
+            if(i!=pretxid){
+                pretxid = i;
+            } else {
+                continue;
+            }
            //only count the rewards over at least one timeSpan
            if (now >= lockedAllRewards[_user][i].startTime + timeSpan) {
                
